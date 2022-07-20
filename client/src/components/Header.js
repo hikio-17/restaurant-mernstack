@@ -17,18 +17,23 @@ const Header = () => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <Link to="#" className="navbar-brand">
+        <Link to="/" className="navbar-brand">
           Logo
         </Link>
         <div className="collapse navbar-collapse" id="navbarTogglerDemo03">
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link to="#" className="nav-link" aria-current="page">
+              <Link to="/" className="nav-link" aria-current="page">
+                Home
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/signup" className="nav-link" aria-current="page">
                 Signup
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="#" className="nav-link">
+              <Link to="/signin" className="nav-link">
                 Signin
               </Link>
             </li>
