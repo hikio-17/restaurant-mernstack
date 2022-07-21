@@ -1,6 +1,11 @@
 import React, { useState } from "react";
+import isEmail from "validator/lib/isEmail";
+import isEmpty from "validator/lib/isEmpty";
+import equals from "validator/lib/equals";
 import "./signup.css";
 import { Link } from "react-router-dom";
+import { showErrorMsg, showSuccessMsg } from "../helpers/message";
+import { showLoading } from "../helpers/loading";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -10,7 +15,7 @@ const Signup = () => {
     password2: "",
     successMsg: false,
     errorMsg: false,
-    loading: false,
+    loading: true,
   });
 
   const {
@@ -28,18 +33,47 @@ const Signup = () => {
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
+      successMsg: "",
+      errorMsg: "",
     });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    console.log(formData);
+    // client-side validator
+    if (
+      isEmpty(username) ||
+      isEmpty(email) ||
+      isEmpty(password) ||
+      isEmpty(password)
+    ) {
+      setFormData({
+        ...formData,
+        errorMsg: "All fields are required",
+      });
+    } else if (!isEmail(email)) {
+      setFormData({
+        ...formData,
+        errorMsg: "Invalid email",
+      });
+    } else if (!equals(password, password2)) {
+      setFormData({
+        ...formData,
+        errorMsg: "Passwords do not match",
+      });
+    } else {
+      // success
+      setFormData({
+        ...formData,
+        successMsg: "Validation success",
+      });
+    }
   };
 
   /*============= views ================== */
   const showSignupForm = () => (
-    <form className="signup-form" onSubmit={handleSubmit}>
+    <form className="signup-form" onSubmit={handleSubmit} noValidate>
       {/* username */}
       <div className="form-group input-group mb-3">
         <span className="input-group-text">
@@ -117,8 +151,11 @@ const Signup = () => {
     <div className="signup-container">
       <div className="row px-3 vh-100">
         <div className="col-md-5 mx-auto align-self-center">
+          {successMsg && showSuccessMsg(successMsg)}
+          {errorMsg && showErrorMsg(errorMsg)}
+          {loading && <div className="text-center pb-4">{showLoading()}</div>}
           {showSignupForm()}
-          <p style={{ color: "white" }}>{JSON.stringify(formData)}</p>
+          {/* <p style={{ color: "white" }}>{JSON.stringify(formData)}</p> */}
         </div>
       </div>
     </div>
