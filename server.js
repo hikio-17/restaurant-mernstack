@@ -3,11 +3,15 @@ const app = express();
 const cors = require("cors");
 const morgan = require("morgan");
 const connectDB = require("./database/db");
+const authRoutes = require("./routes/auth");
 
 // middleware
 app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
+
+// route
+app.use("/api/auth", authRoutes);
 
 connectDB();
 
