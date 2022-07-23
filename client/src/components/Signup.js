@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { showErrorMsg, showSuccessMsg } from "../helpers/message";
 import { showLoading } from "../helpers/loading";
 import { signup } from "../api/auth";
+import axios from "axios";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -71,7 +72,8 @@ const Signup = () => {
         ...formData,
         loading: true,
       });
-      signup(data)
+      axios
+        .post("http://localhost:5000/api/auth/signup", data)
         .then((response) => {
           console.log("Axios signup success: ", response);
           setFormData({

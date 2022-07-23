@@ -10,11 +10,10 @@ exports.signupValidator = [
 
 exports.validatorResult = (req, res, next) => {
   const result = validationResult(req);
-  console.log(result);
   const hasErrors = !result.isEmpty();
 
   if (hasErrors) {
-    const firstError = result.array()[2].msg;
+    const firstError = result.array()[0].msg;
     return res.status(400).json({
       errorMessage: firstError,
     });
