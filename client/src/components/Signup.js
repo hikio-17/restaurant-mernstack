@@ -91,6 +91,7 @@ const Signup = () => {
           setFormData({
             ...formData,
             loading: false,
+            errorMsg: err.response.data.errorMessage,
           });
         });
     }
