@@ -10,10 +10,10 @@ import { signup } from "../api/auth";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-    password2: "",
+    username: "johnDoe",
+    email: "johnDoe@example.com",
+    password: "testing123",
+    password2: "testing123",
     successMsg: false,
     errorMsg: false,
     loading: false,
@@ -42,13 +42,12 @@ const Signup = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(formData);
-
     // client-side validator
     if (
       isEmpty(username) ||
       isEmpty(email) ||
       isEmpty(password) ||
-      isEmpty(password)
+      isEmpty(password2)
     ) {
       setFormData({
         ...formData,
@@ -65,15 +64,13 @@ const Signup = () => {
         errorMsg: "Passwords do not match",
       });
     } else {
-      // success
       const { username, email, password } = formData;
       const data = { username, email, password };
-
+      console.log(data);
       setFormData({
         ...formData,
         loading: true,
       });
-      // send data
       signup(data)
         .then((response) => {
           console.log("Axios signup success: ", response);

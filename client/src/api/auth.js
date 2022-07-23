@@ -7,7 +7,11 @@ export const signup = async (data) => {
     },
   };
 
-  const response = await axios.post("/api/auth/signup", data, config);
+  const response = await axios.post(
+    "http://localhost:5000/api/auth/signup",
+    data,
+    config
+  );
 
   return response;
 };
