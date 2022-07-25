@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import isEmail from "validator/lib/isEmail";
+import isEmpty from "validator/lib/isEmpty";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import { showErrorMsg } from "../helpers/message";
 import { showLoading } from "../helpers/loading";
 
@@ -23,7 +26,47 @@ const Signin = () => {
     });
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(formData);
+    // client-side validator
+    if (isEmpty(email) || isEmpty(password)) {
+      setFormData({
+        ...formData,
+        errorMsg: "All fields are required",
+      });
+    } else if (!isEmail(email)) {
+      setFormData({
+        ...formData,
+        errorMsg: "Invalid email",
+      });
+    } else {
+      const { email, password } = formData;
+      const data = { email, password };
+      setFormData({
+        ...formData,
+        loading: true,
+      });
+      axios
+        .post("http://localhost:5000/api/auth/signin", data)
+        .then((response) => {
+          console.log("Axios signup success: ", response);
+          setFormData({
+            email: "",
+            password: "",
+            loading: false,
+          });
+        })
+        .catch((err) => {
+          console.log("Axios signup error: ", err);
+          setFormData({
+            ...formData,
+            loading: false,
+            errorMsg: err.response.data.errorMessage,
+          });
+        });
+    }
+  };
 
   /* ==================== views ================= */
   const showSigninForm = () => (

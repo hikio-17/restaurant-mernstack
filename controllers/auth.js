@@ -23,7 +23,6 @@ exports.signupController = async (req, res) => {
     res.json({
       successMessage: "Registration success. Please Signin.",
     });
-
     // console.log(newUser.password);
   } catch (err) {
     console.log("signupcontroller error: ", err);
@@ -31,4 +30,8 @@ exports.signupController = async (req, res) => {
       errorMessage: "Server error",
     });
   }
+};
+
+exports.signinController = async (req, res) => {
+  console.log("inside controller");
 };
