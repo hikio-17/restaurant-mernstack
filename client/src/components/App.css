@@ -1,3 +1,7 @@
+body {
+  overflow: hidden;
+}
+
 .signup-container {
   background-image: url("background.jpg");
   background-size: cover;

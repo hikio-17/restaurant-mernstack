@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import isEmail from "validator/lib/isEmail";
 import isEmpty from "validator/lib/isEmpty";
 import equals from "validator/lib/equals";
-import "./signup.css";
 import { Link } from "react-router-dom";
 import { showErrorMsg, showSuccessMsg } from "../helpers/message";
 import { showLoading } from "../helpers/loading";
