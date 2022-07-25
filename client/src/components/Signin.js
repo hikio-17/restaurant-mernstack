@@ -1,7 +1,87 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { showErrorMsg } from "../helpers/message";
+import { showLoading } from "../helpers/loading";
 
 const Signin = () => {
-  return <div>Signin</div>;
+  const [formData, setFormData] = useState({
+    email: "johndoe@example.com",
+    password: "abc12345",
+    errorMsg: false,
+    loading: false,
+    redirectToDashboard: false,
+  });
+
+  const { email, password, errorMsg, loading, redirectToDashboard } = formData;
+
+  /** ================  EVENT HANDLER =============== */
+  const handleChange = (event) => {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+      errorMsg: "",
+    });
+  };
+
+  const handleSubmit = () => {};
+
+  /* ==================== views ================= */
+  const showSigninForm = () => (
+    <form className="signup-form" onSubmit={handleSubmit} noValidate>
+      {/* email */}
+      <div className="form-group input-group mb-3">
+        <span className="input-group-text">
+          <i className="fa fa-envelope"></i>
+        </span>
+        <input
+          name="email"
+          value={email}
+          className="form-control"
+          placeholder="Email address"
+          type="email"
+          onChange={handleChange}
+        />
+      </div>
+      {/* password */}
+      <div className="form-group input-group mb-3">
+        <span className="input-group-text">
+          <i className="fa fa-lock"></i>
+        </span>
+        <input
+          name="password"
+          value={password}
+          className="form-control"
+          placeholder="Create password"
+          type="password"
+          onChange={handleChange}
+        />
+      </div>
+
+      {/* signin button */}
+      <div className="form-group d-grid gap-2 mb-3">
+        <button type="submit" className="btn btn-primary ">
+          Signin
+        </button>
+      </div>
+
+      {/* already an account */}
+      <p className="text-center text-white mb-3">
+        Don't have an account? <Link to="/signup">Register here</Link>
+      </p>
+    </form>
+  );
+  return (
+    <div className="signin-container">
+      <div className="row px-3 vh-100">
+        <div className="col-md-5 mx-auto align-self-center">
+          {errorMsg && showErrorMsg(errorMsg)}
+          {loading && <div className="text-center pb-4">{showLoading()}</div>}
+          {showSigninForm()}
+          {/* <p style={{ color: "white" }}>{JSON.stringify(formData)}</p> */}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Signin;
