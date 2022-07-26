@@ -1,13 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import isEmail from "validator/lib/isEmail";
 import isEmpty from "validator/lib/isEmpty";
 import equals from "validator/lib/equals";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { showErrorMsg, showSuccessMsg } from "../helpers/message";
 import { showLoading } from "../helpers/loading";
 import axios from "axios";
+import { isAuthenticated } from "../helpers/auth";
 
 const Signup = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isAuthenticated() && isAuthenticated().role === 1) {
+      navigate("/admin/dashboard");
+    } else if (isAuthenticated() && isAuthenticated().role === 0) {
+      navigate("/user/dashboard");
+    }
+  }, [navigate]);
   const [formData, setFormData] = useState({
     username: "johnDoe",
     email: "johnDoe@example.com",

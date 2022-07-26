@@ -1,16 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import isEmail from "validator/lib/isEmail";
 import isEmpty from "validator/lib/isEmpty";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { showErrorMsg } from "../helpers/message";
 import { showLoading } from "../helpers/loading";
 import { isAuthenticated, setAuthentication } from "./../helpers/auth";
 
 const Signin = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isAuthenticated() && isAuthenticated().role === 1) {
+      navigate("/admin/dashboard");
+    } else if (isAuthenticated() && isAuthenticated().role === 0) {
+      navigate("/user/dashboard");
+    }
+  }, [navigate]);
   const [formData, setFormData] = useState({
-    email: "johndoe@example.com",
-    password: "abc12345",
+    email: "fajritio376@gmail.com",
+    password: "hikio010217",
     errorMsg: false,
     loading: false,
   });
@@ -53,8 +62,10 @@ const Signin = () => {
 
           if (isAuthenticated() && isAuthenticated().role === 1) {
             console.log("Redirecting to admin dashboard");
+            navigate("/admin/dashboard");
           } else {
             console.log("Redirecting to user dashboard");
+            navigate("/user/dashboard");
           }
         })
         .catch((err) => {
