@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { showErrorMsg } from "../helpers/message";
 import { showLoading } from "../helpers/loading";
-import { setAuthentication } from "./../helpers/auth";
+import { isAuthenticated, setAuthentication } from "./../helpers/auth";
 
 const Signin = () => {
   const [formData, setFormData] = useState({
@@ -13,10 +13,9 @@ const Signin = () => {
     password: "abc12345",
     errorMsg: false,
     loading: false,
-    redirectToDashboard: false,
   });
 
-  const { email, password, errorMsg, loading, redirectToDashboard } = formData;
+  const { email, password, errorMsg, loading } = formData;
 
   /** ================  EVENT HANDLER =============== */
   const handleChange = (event) => {
@@ -29,7 +28,6 @@ const Signin = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formData);
     // client-side validator
     if (isEmpty(email) || isEmpty(password)) {
       setFormData({
@@ -51,8 +49,13 @@ const Signin = () => {
       axios
         .post("http://localhost:5000/api/auth/signin", data)
         .then((response) => {
-          console.log(response);
           setAuthentication(response.data.token, response.data.user);
+
+          if (isAuthenticated() && isAuthenticated().role === 1) {
+            console.log("Redirecting to admin dashboard");
+          } else {
+            console.log("Redirecting to user dashboard");
+          }
         })
         .catch((err) => {
           console.log("sigin api function error: ", err);
