@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { showErrorMsg } from "../helpers/message";
 import { showLoading } from "../helpers/loading";
+import { setAuthentication } from "./../helpers/auth";
 
 const Signin = () => {
   const [formData, setFormData] = useState({
@@ -50,20 +51,11 @@ const Signin = () => {
       axios
         .post("http://localhost:5000/api/auth/signin", data)
         .then((response) => {
-          console.log("Axios signup success: ", response);
-          setFormData({
-            email: "",
-            password: "",
-            loading: false,
-          });
+          console.log(response);
+          setAuthentication(response.data.token, response.data.user);
         })
         .catch((err) => {
-          console.log("Axios signup error: ", err);
-          setFormData({
-            ...formData,
-            loading: false,
-            errorMsg: err.response.data.errorMessage,
-          });
+          console.log("sigin api function error: ", err);
         });
     }
   };
