@@ -1,11 +1,26 @@
 import React from "react";
 
 const AdminDashboard = () => {
-  return (
-    <div>
-      <h1>Admin Dashboard</h1>
+  /** ================= views ============== */
+  const showHeader = () => (
+    <div className="bg-dark text-white py-4">
+      <div className="container">
+        <div className="row">
+          <div className="col-md-6">
+            <h1>
+              <i className="fas fa-home" style={{ letterSpacing: "2px" }}>
+                {" "}
+              </i>
+              Dashboard
+            </h1>
+          </div>
+        </div>
+      </div>
     </div>
   );
+
+  /** ============== render =================== */
+  return <section>{showHeader()}</section>;
 };
 
 export default AdminDashboard;
