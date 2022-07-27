@@ -8,6 +8,8 @@ import Signin from "./Signin";
 import Signup from "./Signup";
 import AdminDashboard from "./AdminDashboard";
 import UserDashboard from "./UserDashboard";
+import AdminRoute from "./AdminRoute";
+import UserRoute from "./UserRoute";
 
 const App = () => (
   <BrowserRouter>
@@ -17,8 +19,16 @@ const App = () => (
         <Route exact path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/user/dashboard" element={<UserDashboard />} />
+
+        {/** Protected admin route */}
+        <Route element={<AdminRoute />}>
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        </Route>
+
+        {/** Protected user route */}
+        <Route element={<UserRoute />}>
+          <Route path="/user/dashboard" element={<UserDashboard />} />
+        </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
     </main>
