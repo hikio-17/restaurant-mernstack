@@ -1,11 +1,21 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { Fragment } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { isAuthenticated, logout } from "../helpers/auth";
 
 const Header = () => {
+  let navigate = useNavigate();
+  const handleLogout = (event) => {
+    logout(() => {
+      navigate("/signin");
+    });
+  };
   // views
   const showNavigation = () => (
     <nav className="navbar navbar-expand-lg bg-light">
       <div className="container-fluid">
+        <Link to="/" className="navbar-brand">
+          Logo
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -17,26 +27,68 @@ const Header = () => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <Link to="/" className="navbar-brand">
-          Logo
-        </Link>
         <div className="collapse navbar-collapse" id="navbarTogglerDemo03">
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link to="/" className="nav-link" aria-current="page">
-                Home
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/signup" className="nav-link" aria-current="page">
-                Signup
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/signin" className="nav-link">
-                Signin
-              </Link>
-            </li>
+            {!isAuthenticated() && (
+              <Fragment>
+                <li className="nav-item">
+                  <Link to="/" className="nav-link" aria-current="page">
+                    Home
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/signup" className="nav-link" aria-current="page">
+                    Signup
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/signin" className="nav-link">
+                    Signin
+                  </Link>
+                </li>
+              </Fragment>
+            )}
+
+            {isAuthenticated() && isAuthenticated().role === 0 && (
+              <Fragment>
+                <li className="nav-item">
+                  <Link
+                    to="/user/dashboard"
+                    className="nav-link"
+                    aria-current="page"
+                  >
+                    Dashboard
+                  </Link>
+                </li>
+              </Fragment>
+            )}
+
+            {isAuthenticated() && isAuthenticated().role === 1 && (
+              <Fragment>
+                <li className="nav-item">
+                  <Link
+                    to="/admin/dashboard"
+                    className="nav-link"
+                    aria-current="page"
+                  >
+                    Dashboard
+                  </Link>
+                </li>
+              </Fragment>
+            )}
+
+            {isAuthenticated() && (
+              <Fragment>
+                <li className="nav-item">
+                  <button
+                    className="btn btn-link text-secondary text-decoration-none ps-0"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                </li>
+              </Fragment>
+            )}
           </ul>
         </div>
       </div>
