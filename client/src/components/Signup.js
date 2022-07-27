@@ -5,8 +5,8 @@ import equals from "validator/lib/equals";
 import { Link, useNavigate } from "react-router-dom";
 import { showErrorMsg, showSuccessMsg } from "../helpers/message";
 import { showLoading } from "../helpers/loading";
-import axios from "axios";
 import { isAuthenticated } from "../helpers/auth";
+import { signup } from "./../api/auth";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -79,8 +79,7 @@ const Signup = () => {
         ...formData,
         loading: true,
       });
-      axios
-        .post("http://localhost:5000/api/auth/signup", data)
+      signup(data)
         .then((response) => {
           console.log("Axios signup success: ", response);
           setFormData({

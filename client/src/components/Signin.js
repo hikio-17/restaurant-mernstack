@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import isEmail from "validator/lib/isEmail";
 import isEmpty from "validator/lib/isEmpty";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { showErrorMsg } from "../helpers/message";
 import { showLoading } from "../helpers/loading";
 import { isAuthenticated, setAuthentication } from "./../helpers/auth";
+import { signin } from "../api/auth";
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -55,8 +55,7 @@ const Signin = () => {
         ...formData,
         loading: true,
       });
-      axios
-        .post("http://localhost:5000/api/auth/signin", data)
+      signin(data)
         .then((response) => {
           setAuthentication(response.data.token, response.data.user);
 
