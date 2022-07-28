@@ -121,10 +121,19 @@ const AdminDashboard = () => {
 
       createProduct(formData)
         .then((response) => {
-          console.log("Server response: ", response);
+          setProductData({
+            productImage: null,
+            productName: "",
+            productDesc: "",
+            productPrice: "",
+            productCategory: "",
+            productQty: "",
+          });
+          setSuccessMsg(response.data.successMessage);
         })
         .catch((err) => {
           console.log(err);
+          setErrorMsg(err.response.data.errorMessage);
         });
     }
   };

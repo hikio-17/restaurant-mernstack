@@ -1,12 +1,9 @@
 import axios from "axios";
 export const createCategory = async (formData) => {
-  const config = {
-    withCredentials: true,
-  };
   const response = await axios.post(
     "http://localhost:5000/api/category",
     formData,
-    config
+    { withCredentials: true }
   );
 
   return response;

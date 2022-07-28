@@ -8,8 +8,14 @@ const authRoutes = require("./routes/auth");
 const categoryRoutes = require("./routes/category");
 const productRoutes = require("./routes/product");
 
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true,
+  optionSuccessStatus: 200,
+};
+
 // middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(morgan("dev"));
 app.use(express.json());
