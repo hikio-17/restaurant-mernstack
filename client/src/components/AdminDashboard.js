@@ -10,6 +10,23 @@ const AdminDashboard = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
   const [loading, setLoading] = useState(false);
+  const [productData, setProductData] = useState({
+    productImage: null,
+    productName: "",
+    productDesc: "",
+    productPrice: "",
+    productCategory: "",
+    productQty: "",
+  });
+
+  const {
+    productImage,
+    productName,
+    productDesc,
+    productPrice,
+    productCategory,
+    productQty,
+  } = productData;
 
   /** ============= lifecycle methods =============== */
   useEffect(() => {
@@ -60,6 +77,21 @@ const AdminDashboard = () => {
           setErrorMsg(err.response.data.errorMessage);
         });
     }
+  };
+
+  const handleProductImage = (event) => {
+    console.log(event.target.files[0]);
+    setProductData({
+      ...productData,
+      [event.target.name]: event.target.files[0],
+    });
+  };
+
+  const handleProductChange = (event) => {
+    setProductData({
+      ...productData,
+      [event.target.name]: event.target.value,
+    });
   };
 
   /** ================= views ============== */
@@ -183,24 +215,54 @@ const AdminDashboard = () => {
                       className="form-control form-control-sm"
                       id="formFileSm"
                       type="file"
+                      name="productImage"
+                      value={productImage}
+                      onChange={handleProductImage}
                     />
                   </div>
 
                   <div className="form-group mb-3">
                     <label className="text-secondary">Name</label>
-                    <input type="text" className="form-control" />
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="productName"
+                      value={productName}
+                      onChange={handleProductChange}
+                    />
                   </div>
 
                   <div className="form-group mb-3">
                     <label className="text-secondary">Description</label>
-                    <textarea className="form-control" rows="3"></textarea>
+                    <textarea
+                      className="form-control"
+                      rows="3"
+                      name="productDesc"
+                      value={productDesc}
+                      onChange={handleProductChange}
+                    ></textarea>
+                  </div>
+
+                  <div className="form-group mb-3">
+                    <label className="text-secondary">Price</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="productPrice"
+                      value={productPrice}
+                      onChange={handleProductChange}
+                    />
                   </div>
 
                   <div className="form row ">
                     <div className="form-group col-md-6">
                       <label className="text-secondary">Category</label>
-                      <select className="form-select mr-sm-2">
-                        <option>Choose one...</option>
+                      <select
+                        className="form-select mr-sm-2"
+                        name="productCategory"
+                        onChange={handleProductChange}
+                      >
+                        <option value="">Choose one...</option>
                         {categories &&
                           categories.map((c) => (
                             <option key={c._id} value={c._id}>
@@ -217,6 +279,9 @@ const AdminDashboard = () => {
                         className="form-control"
                         min="0"
                         max="1000"
+                        name="productQty"
+                        value={productQty}
+                        onChange={handleProductChange}
                       />
                     </div>
                   </div>
@@ -244,6 +309,7 @@ const AdminDashboard = () => {
   /** ============== render =================== */
   return (
     <section>
+      {JSON.stringify(productData)}
       {showHeader()}
       {showActionBtns()}
       {showCategoryModal()}
