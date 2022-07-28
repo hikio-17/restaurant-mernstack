@@ -14,10 +14,17 @@ const AdminDashboard = () => {
   /** ============= lifecycle methods =============== */
   useEffect(() => {
     loadCategories();
-  }, []);
+  }, [loading]);
 
   const loadCategories = async () => {
-    await getCategories();
+    await getCategories()
+      .then((response) => {
+        setCategories(response.data.categories);
+        console.log(categories);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   /** =========== event handlers ================*/
@@ -194,9 +201,12 @@ const AdminDashboard = () => {
                       <label className="text-secondary">Category</label>
                       <select className="form-select mr-sm-2">
                         <option>Choose one...</option>
-                        <option>Pasta</option>
-                        <option>Desserts</option>
-                        <option>Drinks</option>
+                        {categories &&
+                          categories.map((c) => (
+                            <option key={c._id} value={c._id}>
+                              {c.category}
+                            </option>
+                          ))}
                       </select>
                     </div>
 
