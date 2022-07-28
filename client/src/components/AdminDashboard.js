@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { createCategory, getCategories } from "./../api/category";
+import { createProduct } from "../api/product";
 import isEmpty from "validator/lib/isEmpty";
 import { showErrorMsg, showSuccessMsg } from "../helpers/message";
 import { showLoading } from "../helpers/loading";
@@ -11,7 +12,7 @@ const AdminDashboard = () => {
   const [successMsg, setSuccessMsg] = useState("");
   const [loading, setLoading] = useState(false);
   const [productData, setProductData] = useState({
-    productImage: "",
+    productImage: null,
     productName: "",
     productDesc: "",
     productPrice: "",
@@ -37,7 +38,6 @@ const AdminDashboard = () => {
     await getCategories()
       .then((response) => {
         setCategories(response.data.categories);
-        console.log(categories);
       })
       .catch((err) => {
         console.log(err);
@@ -99,6 +99,33 @@ const AdminDashboard = () => {
 
     if (productImage === null) {
       setErrorMsg("Please select an image");
+    } else if (
+      isEmpty(productName) ||
+      isEmpty(productDesc) ||
+      isEmpty(productPrice)
+    ) {
+      setErrorMsg("All fields are required");
+    } else if (isEmpty(productCategory)) {
+      setErrorMsg("Please select a category");
+    } else if (isEmpty(productQty)) {
+      setErrorMsg("Please select a quantity");
+    } else {
+      let formData = new FormData();
+
+      formData.append("productImage", productImage);
+      formData.append("productName", productName);
+      formData.append("productDesc", productDesc);
+      formData.append("productPrice", productPrice);
+      formData.append("productCategory", productCategory);
+      formData.append("productQty", productQty);
+
+      createProduct(formData)
+        .then((response) => {
+          console.log("Server response: ", response);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
 
@@ -224,7 +251,6 @@ const AdminDashboard = () => {
                       id="formFileSm"
                       type="file"
                       name="productImage"
-                      value={productImage}
                       onChange={handleProductImage}
                     />
                   </div>
@@ -317,7 +343,6 @@ const AdminDashboard = () => {
   /** ============== render =================== */
   return (
     <section>
-      {JSON.stringify(productData)}
       {showHeader()}
       {showActionBtns()}
       {showCategoryModal()}
