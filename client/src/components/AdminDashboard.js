@@ -11,7 +11,7 @@ const AdminDashboard = () => {
   const [successMsg, setSuccessMsg] = useState("");
   const [loading, setLoading] = useState(false);
   const [productData, setProductData] = useState({
-    productImage: null,
+    productImage: "",
     productName: "",
     productDesc: "",
     productPrice: "",
@@ -92,6 +92,14 @@ const AdminDashboard = () => {
       ...productData,
       [event.target.name]: event.target.value,
     });
+  };
+
+  const handleProductSubmit = (event) => {
+    event.preventDefault();
+
+    if (productImage === null) {
+      setErrorMsg("Please select an image");
+    }
   };
 
   /** ================= views ============== */
@@ -196,7 +204,7 @@ const AdminDashboard = () => {
     <div id="addFoodModal" className="modal" onClick={handleMessages}>
       <div className="modal-dialog modal-dialog-centered modal-lg">
         <div className="modal-content">
-          <form onSubmit={handleCategorySubmit}>
+          <form onSubmit={handleProductSubmit}>
             <div className="modal-header bg-warning text-white">
               <h5 className="modal-title">Add Category</h5>
               <button className="btn-close" data-bs-dismiss="modal"></button>
