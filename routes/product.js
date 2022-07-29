@@ -11,4 +11,6 @@ router.post(
   productController.create
 );
 
+router.post("/", productController.readAll);
+
 module.exports = router;
