@@ -1,15 +1,22 @@
-import React, { useState, useEffect, Fragment } from "react";
-import { createProduct } from "../api/product";
-import { getCategories } from "./../api/category";
+import React, { useState, Fragment } from "react";
 import isEmpty from "validator/lib/isEmpty";
 import { showErrorMsg, showSuccessMsg } from "../helpers/message";
 import { showLoading } from "../helpers/loading";
 
+//redux
+import { useSelector, useDispatch } from "react-redux";
+import { clearMessages } from "./../redux/actionts/messageActions";
+import { createProduct } from "../redux/actionts/productActions";
+
 const AdminProductModal = () => {
-  const [categories, setCategories] = useState(null);
-  const [errorMsg, setErrorMsg] = useState("");
-  const [successMsg, setSuccessMsg] = useState("");
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  // redux global state
+  const { loading } = useSelector((state) => state.loading);
+  const { successMsg, errorMsg } = useSelector((state) => state.messages);
+  const { categories } = useSelector((state) => state.categories);
+
+  // component state properties
+  const [clientSideErorrMsg, setclientSideErorrMsg] = useState("");
   const [productData, setProductData] = useState({
     productImage: null,
     productName: "",
@@ -28,25 +35,10 @@ const AdminProductModal = () => {
     productQty,
   } = productData;
 
-  /** ============= lifecycle methods =============== */
-  useEffect(() => {
-    loadCategories();
-  }, [loading]);
-
-  const loadCategories = async () => {
-    await getCategories()
-      .then((response) => {
-        setCategories(response.data.categories);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   /** =========== event handlers ================*/
   const handleMessages = (event) => {
-    setErrorMsg("");
-    setSuccessMsg("");
+    dispatch(clearMessages());
+    setclientSideErorrMsg("");
   };
 
   const handleProductImage = (event) => {
@@ -67,17 +59,17 @@ const AdminProductModal = () => {
     event.preventDefault();
 
     if (productImage === null) {
-      setErrorMsg("Please select an image");
+      setclientSideErorrMsg("Please select an image");
     } else if (
       isEmpty(productName) ||
       isEmpty(productDesc) ||
       isEmpty(productPrice)
     ) {
-      setErrorMsg("All fields are required");
+      setclientSideErorrMsg("All fields are required");
     } else if (isEmpty(productCategory)) {
-      setErrorMsg("Please select a category");
+      setclientSideErorrMsg("Please select a category");
     } else if (isEmpty(productQty)) {
-      setErrorMsg("Please select a quantity");
+      setclientSideErorrMsg("Please select a quantity");
     } else {
       let formData = new FormData();
 
@@ -87,25 +79,16 @@ const AdminProductModal = () => {
       formData.append("productPrice", productPrice);
       formData.append("productCategory", productCategory);
       formData.append("productQty", productQty);
-      setLoading(true);
-      createProduct(formData)
-        .then((response) => {
-          setLoading(false);
-          setProductData({
-            productImage: null,
-            productName: "",
-            productDesc: "",
-            productPrice: "",
-            productCategory: "",
-            productQty: "",
-          });
-          setSuccessMsg(response.data.successMessage);
-        })
-        .catch((err) => {
-          setLoading(false);
-          console.log(err);
-          setErrorMsg(err.response.data.errorMessage);
-        });
+
+      dispatch(createProduct(formData));
+      setProductData({
+        productImage: null,
+        productName: "",
+        productDesc: "",
+        productPrice: "",
+        productCategory: "",
+        productQty: "",
+      });
     }
   };
 
@@ -119,6 +102,7 @@ const AdminProductModal = () => {
               <button className="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div className="modal-body my-2">
+              {clientSideErorrMsg && showErrorMsg(clientSideErorrMsg)}
               {errorMsg && showErrorMsg(errorMsg)}
               {successMsg && showSuccessMsg(successMsg)}
 

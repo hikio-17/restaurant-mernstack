@@ -1,24 +1,32 @@
 import React, { useState, Fragment } from "react";
-import { createCategory } from "./../api/category";
 import isEmpty from "validator/lib/isEmpty";
 import { showErrorMsg, showSuccessMsg } from "../helpers/message";
 import { showLoading } from "../helpers/loading";
 
-const AdminCategoryModal = () => {
-  const [category, setCategory] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
-  const [successMsg, setSuccessMsg] = useState("");
-  const [loading, setLoading] = useState(false);
-  /** =========== event handlers ================*/
+// redux
+import { useSelector, useDispatch } from "react-redux";
+import { clearMessages } from "../redux/actionts/messageActions";
+import { createCategory } from "../redux/actionts/categoryActions";
 
+const AdminCategoryModal = () => {
+  const dispatch = useDispatch();
+
+  //redux global state properties
+  const { successMsg, errorMsg } = useSelector((state) => state.messages);
+  const { loading } = useSelector((state) => state.loading);
+
+  // component state properties
+  const [category, setCategory] = useState("");
+  const [clientSideErorrMsg, setclientSideErorrMsg] = useState("");
+
+  /** =========== event handlers ================*/
   const handleMessages = (event) => {
-    setErrorMsg("");
-    setSuccessMsg("");
+    dispatch(clearMessages());
   };
 
   const handleCategoryChange = (event) => {
-    setErrorMsg("");
-    setSuccessMsg("");
+    dispatch(clearMessages());
+    setclientSideErorrMsg("");
     setCategory(event.target.value);
   };
 
@@ -26,21 +34,11 @@ const AdminCategoryModal = () => {
     event.preventDefault();
 
     if (isEmpty(category)) {
-      setErrorMsg("Please enter a category");
+      setclientSideErorrMsg("Please enter a category");
     } else {
       const data = { category };
-
-      setLoading(true);
-      createCategory(data)
-        .then((response) => {
-          setLoading(false);
-          setSuccessMsg(response.data.successMessage);
-          setCategory("");
-        })
-        .catch((err) => {
-          setLoading(false);
-          setErrorMsg(err.response.data.errorMessage);
-        });
+      dispatch(createCategory(data));
+      setCategory("");
     }
   };
   return (
@@ -53,6 +51,7 @@ const AdminCategoryModal = () => {
               <button className="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div className="modal-body my-2">
+              {clientSideErorrMsg && showErrorMsg(clientSideErorrMsg)}
               {errorMsg && showErrorMsg(errorMsg)}
               {successMsg && showSuccessMsg(successMsg)}
 

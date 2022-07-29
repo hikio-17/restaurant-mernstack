@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Header from "./Header";
@@ -10,29 +10,40 @@ import AdminDashboard from "./AdminDashboard";
 import UserDashboard from "./UserDashboard";
 import AdminRoute from "./AdminRoute";
 import UserRoute from "./UserRoute";
+//REDUX
+import { useDispatch } from "react-redux";
+import { getCategories } from "../redux/actionts/categoryActions";
 
-const App = () => (
-  <BrowserRouter>
-    <Header />
-    <main>
-      <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/signin" element={<Signin />} />
+const App = () => {
+  const dispatch = useDispatch();
 
-        {/** Protected admin route */}
-        <Route element={<AdminRoute />}>
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        </Route>
+  useEffect(() => {
+    dispatch(getCategories());
+  }, [dispatch]);
 
-        {/** Protected user route */}
-        <Route element={<UserRoute />}>
-          <Route path="/user/dashboard" element={<UserDashboard />} />
-        </Route>
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </main>
-  </BrowserRouter>
-);
+  return (
+    <BrowserRouter>
+      <Header />
+      <main>
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/signin" element={<Signin />} />
+
+          {/** Protected admin route */}
+          <Route element={<AdminRoute />}>
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          </Route>
+
+          {/** Protected user route */}
+          <Route element={<UserRoute />}>
+            <Route path="/user/dashboard" element={<UserDashboard />} />
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </main>
+    </BrowserRouter>
+  );
+};
 
 export default App;
