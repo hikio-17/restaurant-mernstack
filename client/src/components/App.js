@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Header from "./Header";
@@ -10,17 +10,9 @@ import AdminDashboard from "./AdminDashboard";
 import UserDashboard from "./UserDashboard";
 import AdminRoute from "./AdminRoute";
 import UserRoute from "./UserRoute";
-//REDUX
-import { useDispatch } from "react-redux";
-import { getCategories } from "../redux/actionts/categoryActions";
+import AdminEditProduct from "./AdminEditProduct";
 
 const App = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getCategories());
-  }, [dispatch]);
-
   return (
     <BrowserRouter>
       <Header />
@@ -33,6 +25,13 @@ const App = () => {
           {/** Protected admin route */}
           <Route element={<AdminRoute />}>
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          </Route>
+
+          <Route element={<AdminRoute />}>
+            <Route
+              path="/admin/edit/product/:productId"
+              element={<AdminEditProduct />}
+            />
           </Route>
 
           {/** Protected user route */}

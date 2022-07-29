@@ -7,6 +7,7 @@ const connectDB = require("./database/db");
 const authRoutes = require("./routes/auth");
 const categoryRoutes = require("./routes/category");
 const productRoutes = require("./routes/product");
+const path = require("path");
 
 const corsOptions = {
   origin: "http://localhost:3000",
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/product", productRoutes);
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 connectDB();
 

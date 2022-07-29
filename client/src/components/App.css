@@ -1,7 +1,3 @@
-body {
-  overflow: hidden;
-}
-
 .signup-container,
 .signin-container {
   background-image: url("../../public/images/background.jpg");
