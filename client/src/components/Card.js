@@ -28,6 +28,7 @@ const Card = ({ product, adminPage = false, homePage = false }) => {
               })}
             </span>
           </h6>
+          <p>{product.productQty <= 0 ? "Out of Stock" : "In Stock"} </p>
           <p>
             {product.productDesc.length > 60
               ? product.productDesc.substring(0, 60) + "..."
@@ -57,13 +58,17 @@ const Card = ({ product, adminPage = false, homePage = false }) => {
           {homePage && (
             <>
               <Link
-                to={"#"}
+                to={`/product/${product._id}`}
                 type="button"
                 className="btn btn-primary btn-sm mr-1 my-1"
               >
                 View Product
               </Link>
-              <button type="button" className="btn btn-warning btn-sm">
+              <button
+                type="button"
+                className="btn btn-warning btn-sm"
+                disabled={product.productQty <= 0}
+              >
                 Add To Cart
               </button>
             </>

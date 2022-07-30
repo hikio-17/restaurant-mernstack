@@ -6,6 +6,7 @@ import Home from "./Home";
 import NotFound from "./NotFound";
 import Signin from "./Signin";
 import Signup from "./Signup";
+import Product from "./Product";
 import AdminDashboard from "./AdminDashboard";
 import UserDashboard from "./UserDashboard";
 import AdminRoute from "./AdminRoute";
@@ -20,7 +21,8 @@ const App = () => {
       <main>
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route exact path="/shop" element={<Shop />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/product/:productId" element={<Product />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
 

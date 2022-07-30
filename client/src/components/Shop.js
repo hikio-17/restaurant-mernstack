@@ -111,9 +111,10 @@ const Shop = () => {
         </div>
         <div className="col-md-9">
           <div className="row">
-            {products.map((product) => (
-              <Card key={product._id} product={product} />
-            ))}
+            {products &&
+              products.map((product) => (
+                <Card key={product._id} product={product} homePage={true} />
+              ))}
           </div>
         </div>
       </div>
