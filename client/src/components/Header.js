@@ -37,6 +37,11 @@ const Header = () => {
                   </Link>
                 </li>
                 <li className="nav-item">
+                  <Link to="/shop" className="nav-link" aria-current="page">
+                    <i className="fas fa-shopping-bag"></i> Shop
+                  </Link>
+                </li>
+                <li className="nav-item">
                   <Link to="/signup" className="nav-link" aria-current="page">
                     <i className="fas fa-edit"></i> Signup
                   </Link>

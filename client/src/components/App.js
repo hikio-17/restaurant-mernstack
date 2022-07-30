@@ -11,6 +11,7 @@ import UserDashboard from "./UserDashboard";
 import AdminRoute from "./AdminRoute";
 import UserRoute from "./UserRoute";
 import AdminEditProduct from "./AdminEditProduct";
+import Shop from "./Shop";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
       <main>
         <Routes>
           <Route exact path="/" element={<Home />} />
+          <Route exact path="/shop" element={<Shop />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { getNewArrivals } from "./../redux/actionts/filterActions";
-import { getProducts } from "../redux/actionts/productActions";
+import { getProductsByCount } from "../redux/actionts/productActions";
 import { useDispatch, useSelector } from "react-redux";
 import { showLoading } from "./../helpers/loading";
 import Card from "./Card";
@@ -13,7 +13,7 @@ const Home = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(getProductsByCount());
   }, [dispatch]);
 
   const { newArrivals } = useSelector((state) => state.filters);
