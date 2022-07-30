@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+
 import { getProduct } from "../redux/actionts/productActions";
+import { addToCart } from "./../redux/actionts/cartActions";
 
 const Product = () => {
   const navigate = useNavigate();
@@ -13,6 +15,10 @@ const Product = () => {
   //event handlers
   const handleGoBackBtn = () => {
     navigate(-1);
+  };
+
+  const handleAddToCart = () => {
+    dispatch(addToCart(product));
   };
 
   useEffect(() => {
@@ -51,6 +57,7 @@ const Product = () => {
             <button
               className="btn btn-warning btn-large btn-block mb-5 py-2"
               disabled={product.productQty <= 0}
+              onClick={handleAddToCart}
             >
               Add to Cart
             </button>

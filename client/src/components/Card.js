@@ -3,9 +3,15 @@ import { Link } from "react-router-dom";
 //redux
 import { useDispatch } from "react-redux";
 import { deleteProduct } from "../redux/actionts/productActions";
+import { addToCart } from "./../redux/actionts/cartActions";
 
 const Card = ({ product, adminPage = false, homePage = false }) => {
   const dispatch = useDispatch();
+
+  // event handler
+  const handleAddToCart = () => {
+    dispatch(addToCart(product));
+  };
   return (
     <div className="col-md-4 my-3">
       <div className="card h-100">
@@ -68,6 +74,7 @@ const Card = ({ product, adminPage = false, homePage = false }) => {
                 type="button"
                 className="btn btn-warning btn-sm"
                 disabled={product.productQty <= 0}
+                onClick={handleAddToCart}
               >
                 Add To Cart
               </button>
