@@ -1,7 +1,7 @@
 const express = require("express");
+const router = express.Router();
 const { authenticatateJWT } = require("../middleware/authenticator");
 const upload = require("../middleware/multer");
-const router = express.Router();
 const productController = require("../controllers/product");
 
 router.post(
@@ -13,6 +13,12 @@ router.post(
 
 router.get("/", productController.readAll);
 router.get("/:productId", productController.read);
+router.put(
+  "/:productId",
+  authenticatateJWT,
+  upload.single("productImage"),
+  productController.update
+);
 router.delete("/:productId", authenticatateJWT, productController.delete);
 
 module.exports = router;
