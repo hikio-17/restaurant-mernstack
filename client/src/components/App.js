@@ -15,6 +15,7 @@ import AdminEditProduct from "./AdminEditProduct";
 import Shop from "./Shop";
 import Cart from "./Cart";
 import Shipping from "./Shipping";
+import Payment from "./Payment";
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="/shop" element={<Shop />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/shipping" element={<Shipping />} />
+          <Route path="/payment" element={<Payment />} />
           <Route path="/product/:productId" element={<Product />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
