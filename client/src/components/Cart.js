@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { ADD_TO_CART } from "../redux/constants/cartConstants";
 import { deleteFromCart } from "../redux/actionts/cartActions";
+import { isAuthenticated } from "../helpers/auth";
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -30,6 +31,14 @@ const Cart = () => {
       type: ADD_TO_CART,
       payload: cart,
     });
+  };
+
+  const handleCheckout = (event) => {
+    if (isAuthenticated()) {
+      navigate("/shipping");
+    } else {
+      navigate("/signin?redirect=shipping");
+    }
   };
 
   return (
@@ -129,7 +138,10 @@ const Cart = () => {
                     currency: "IDR",
                   })}
               </p>
-              <button className="btn btn-dark btn-large btn-block mb-5 py-2">
+              <button
+                className="btn btn-dark btn-large btn-block mb-5 py-2"
+                onClick={handleCheckout}
+              >
                 Proceed to Checkout
               </button>
             </div>

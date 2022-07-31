@@ -14,6 +14,7 @@ import UserRoute from "./UserRoute";
 import AdminEditProduct from "./AdminEditProduct";
 import Shop from "./Shop";
 import Cart from "./Cart";
+import Shipping from "./Shipping";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
           <Route exact path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/shipping" element={<Shipping />} />
           <Route path="/product/:productId" element={<Product />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import isEmail from "validator/lib/isEmail";
 import isEmpty from "validator/lib/isEmpty";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { showErrorMsg } from "../helpers/message";
 import { showLoading } from "../helpers/loading";
 import { isAuthenticated, setAuthentication } from "./../helpers/auth";
@@ -9,6 +9,7 @@ import { signin } from "../api/auth";
 
 const Signin = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (isAuthenticated() && isAuthenticated().role === 1) {
@@ -17,6 +18,7 @@ const Signin = () => {
       navigate("/user/dashboard");
     }
   }, [navigate]);
+
   const [formData, setFormData] = useState({
     email: "fajritio376@gmail.com",
     password: "hikio010217",
@@ -58,13 +60,21 @@ const Signin = () => {
       signin(data)
         .then((response) => {
           setAuthentication(response.data.token, response.data.user);
+          const redirect = location.search.split("=")[1];
 
           if (isAuthenticated() && isAuthenticated().role === 1) {
             console.log("Redirecting to admin dashboard");
             navigate("/admin/dashboard");
-          } else {
+          } else if (
+            isAuthenticated() &&
+            isAuthenticated().role === 0 &&
+            !redirect
+          ) {
             console.log("Redirecting to user dashboard");
             navigate("/user/dashboard");
+          } else {
+            console.log("Redirectiong to shipping");
+            navigate("/shipping");
           }
         })
         .catch((err) => {

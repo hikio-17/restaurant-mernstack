@@ -77,7 +77,29 @@ const Header = () => {
                     className="nav-link"
                     aria-current="page"
                   >
-                    <i className="fas fa-home"></i> Dashboard
+                    <i className="fas fa-user-cog"></i> Dashboard
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/" className="nav-link" aria-current="page">
+                    <i className="fas fa-home"></i> Home
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/shop" className="nav-link" aria-current="page">
+                    <i className="fas fa-shopping-bag"></i> Shop
+                  </Link>
+                </li>
+                <li className="nav-item mr-2" style={{ position: "relative" }}>
+                  <Link to="/cart" className="nav-link" aria-current="page">
+                    <i className="fas fa-shopping-cart"></i> Cart
+                    <span
+                      className="badge badge-danger"
+                      style={{ position: "absolute", top: "0px" }}
+                    >
+                      {" "}
+                      {cart.length}
+                    </span>
                   </Link>
                 </li>
               </Fragment>
@@ -91,7 +113,7 @@ const Header = () => {
                     className="nav-link"
                     aria-current="page"
                   >
-                    <i className="fas fa-home"></i> Dashboard
+                    <i className="fas fa-user-cog"></i> Dashboard
                   </Link>
                 </li>
               </Fragment>
@@ -99,7 +121,7 @@ const Header = () => {
 
             {isAuthenticated() && (
               <Fragment>
-                <li className="nav-item">
+                <li className="nav-item mr-2">
                   <button
                     className="btn btn-link text-secondary text-decoration-none ps-0"
                     onClick={handleLogout}
