@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { ADD_TO_CART } from "../redux/constants/cartConstants";
+import { deleteFromCart } from "../redux/actionts/cartActions";
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -96,7 +97,11 @@ const Cart = () => {
                         />
                       </td>
                       <td className="text-center">
-                        <button type="button" className="btn btn-danger btn-sm">
+                        <button
+                          type="button"
+                          className="btn btn-danger btn-sm"
+                          onClick={() => dispatch(deleteFromCart(product))}
+                        >
                           <i className="far fa-trash-alt pr-1"></i>
                         </button>
                       </td>
