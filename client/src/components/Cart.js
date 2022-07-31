@@ -52,7 +52,7 @@ const Cart = () => {
           </div>
           <div className="row">
             <div className="col-md-8">
-              <table className="table text-center border">
+              <table className="table text-center border-top">
                 <thead>
                   <tr>
                     <th scope="col"></th>
@@ -64,7 +64,7 @@ const Cart = () => {
                 </thead>
                 <tbody>
                   {cart.map((product) => (
-                    <tr>
+                    <tr key={product._id}>
                       <th scope="row">
                         {" "}
                         <img
@@ -105,7 +105,29 @@ const Cart = () => {
                 </tbody>
               </table>
             </div>
-            <div className="col-md-4">Cart summary</div>
+            <div className="col-md-4 border-left pl-4">
+              <h2>Cart Summary</h2>
+              <p className="font-weight-light text-muted border-bottom">
+                {cart.length === 1 ? "(1) Items" : `(${cart.length}) Items`}
+              </p>
+              <p className="font-weight-bold">
+                Total:{" "}
+                {cart
+                  .reduce(
+                    (currentSum, currentCartItem) =>
+                      currentSum +
+                      currentCartItem.count * currentCartItem.productPrice,
+                    0
+                  )
+                  .toLocaleString("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                  })}
+              </p>
+              <button className="btn btn-dark btn-large btn-block mb-5 py-2">
+                Proceed to Checkout
+              </button>
+            </div>
           </div>
         </>
       )}
